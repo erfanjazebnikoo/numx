@@ -1,6 +1,6 @@
 #include "integral.h"
 
-double simpson(double from, double to, double n, double (*func)())
+double simpsons(double from, double to, double n, double (*func)())
 {
     double h = (to - from) / n;
     double sum1 = 0.0;

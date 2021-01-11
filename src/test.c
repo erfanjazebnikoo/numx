@@ -1,14 +1,9 @@
 #include <stdio.h>
 #include "integral\integral.h"
 
-double f3(double x)
+double f1(double x)
 {
-    return x;
-}
-
-double f3a(double x)
-{
-    return x * x / 2.0;
+    return x * x * x;
 }
 
 double f2(double x)
@@ -16,54 +11,26 @@ double f2(double x)
     return 1.0 / x;
 }
 
-double f2a(double x)
+double f3(double x)
 {
-    return log(x);
+    return x;
 }
 
-double f1(double x)
+void printTestFunction(double from, double to, double n, double (*func)())
 {
-    return x * x * x;
+    printf("rectangularLeft:  %1f\n", calc(RECTANGLE_LEFT, from, to, n, *func));
+    printf("rectangularRight:  %1f\n", calc(RECTANGLE_RIGHT, from, to, n, *func));
+    printf("rectangularMid:  %1f\n", calc(RECTANGLE_MID, from, to, n, *func));
+    printf("trapezium:  %1f\n", calc(TRAPEZIUM, from, to, n, *func));
+    printf("simpsons:  %1f\n\n", calc(SIMPSONS, from, to, n, *func));
 }
-
-double f1a(double x)
-{
-    return x * x * x * x / 4.0;
-}
-
-typedef double (*pfunc)(double, double, double, double (*)());
-typedef double (*rfunc)(double);
-
-#define INTG(F, A, B) (F((B)) - F((A)))
 
 int main()
 {
-    int i, j;
-    double ic;
-
-    pfunc f[5] = {leftRect, rightRect, midRect, trapezium, simpson};
-    const char *names[5] = {
-        "leftrect", "rightrect", "midrect",
-        "trapezium", "simpson"};
-    rfunc rf[] = {f1, f2, f3, f3};
-    rfunc If[] = {f1a, f2a, f3a, f3a};
-    double ivals[] = {
-        0.0, 1.0,
-        1.0, 100.0,
-        0.0, 5000.0,
-        0.0, 6000.0};
-    double approx[] = {100.0, 1000.0, 5000000.0, 6000000.0};
-
-    for (j = 0; j < (sizeof(rf) / sizeof(rfunc)); j++)
-    {
-        for (i = 0; i < 5; i++)
-        {
-            ic = (*f[i])(ivals[2 * j], ivals[2 * j + 1], approx[j], rf[j]);
-            printf("%10s [ 0,1] num: %+lf, an: %lf\n",
-                   names[i], ic, INTG((*If[j]), ivals[2 * j], ivals[2 * j + 1]));
-        }
-        printf("\n");
-    }
+    printTestFunction(0.0, 1.0, 100.0, f1);
+    printTestFunction(1.0, 100.0, 1000.0, f2);
+    printTestFunction(0.0, 5000.0, 5000000.0, f3);
+    printTestFunction(0.0, 6000.0, 6000000.0, f3);
 
     getchar();
 }

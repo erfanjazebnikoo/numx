@@ -11,16 +11,16 @@ typedef enum
     RECTANGLE_RIGHT,
     RECTANGLE_MID,
     TRAPEZIUM,
-    SIMPSON
+    SIMPSONS
 } integral_type;
 
 double leftRect(double from, double to, double n, double (*func)());
 double rightRect(double from, double to, double n, double (*func)());
 double midRect(double from, double to, double n, double (*func)());
 double trapezium(double from, double to, double n, double (*func)());
-double simpson(double from, double to, double n, double (*func)());
+double simpsons(double from, double to, double n, double (*func)());
 
-inline double calc(integral_type type, double from, double to, double n, double (*func)())
+static inline double calc(integral_type type, double from, double to, double n, double (*func)())
 {
     switch (type)
     {
@@ -36,8 +36,8 @@ inline double calc(integral_type type, double from, double to, double n, double 
     case TRAPEZIUM:
         return trapezium(from, to, n, *func);
         break;
-    case SIMPSON:
-        return simpson(from, to, n, *func);
+    case SIMPSONS:
+        return simpsons(from, to, n, *func);
         break;
     }
 }
